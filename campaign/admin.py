@@ -15,7 +15,7 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.core.management import call_command
 from django.utils.translation import ugettext as _
-from django.utils.encoding import force_unicode
+#from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from campaign.models import MailTemplate, Campaign, BlacklistEntry, \
 SubscriberList, Newsletter
@@ -53,14 +53,14 @@ class CampaignAdmin(admin.ModelAdmin):
             raise PermissionDenied
 
         if obj is None:
-            raise Http404(_('%(name)s object with primary key %(key)r does not exist.') % {'name': force_unicode(opts.verbose_name), 'key': escape(object_id)})
+            raise Http404(_('%(name)s object with primary key %(key)r does not exist.') % {'name': opts.verbose_name, 'key': escape(object_id)})
 
         if request.method == 'POST':
             if not request.POST.get('send', None) == '1':
                 raise PermissionDenied
 
             num_sent = obj.send()
-            messages.success(request, _(u'The %(name)s "%(obj)s" was successfully sent. %(num_sent)s messages delivered.' %  {'name': force_unicode(opts.verbose_name), 'obj': force_unicode(obj), 'num_sent': num_sent,}))
+            messages.success(request, _(u'The %(name)s "%(obj)s" was successfully sent. %(num_sent)s messages delivered.' %  {'name': opts.verbose_name, 'obj': force_unicode(obj), 'num_sent': num_sent,}))
             return HttpResponseRedirect('../')
 
 
@@ -71,7 +71,7 @@ class CampaignAdmin(admin.ModelAdmin):
         media = self.media + form_media()
 
         context = {
-            'title': _('Send %s') % force_unicode(opts.verbose_name),
+            'title': _('Send %s') % opts.verbose_name,
             'object_id': object_id,
             'object': obj,
             'is_popup': request.REQUEST.has_key('_popup'),
