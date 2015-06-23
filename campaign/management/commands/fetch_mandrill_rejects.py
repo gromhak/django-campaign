@@ -33,6 +33,6 @@ class Command(NoArgsCommand):
                     BlacklistEntry.objects.get_or_create(email=reject['email'],
                                                          defaults=defaults)
 
-        except mandrill.Error, e:
+        except mandrill.Error as e:
             logger.error('Mandrill error: %s - %s' % (e.__class__, e))
             raise e

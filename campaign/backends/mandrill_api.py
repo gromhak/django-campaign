@@ -123,7 +123,7 @@ class MandrillApiBackend(BaseBackend):
             result = mandrill_client.messages.send(message=message, async=True)
             return len(result)
 
-        except mandrill.Error, e:
+        except mandrill.Error as e:
             logger.error('Mandrill error: %s - %s' % (e.__class__, e))
             if not fail_silently:
                 raise e

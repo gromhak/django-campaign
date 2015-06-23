@@ -22,7 +22,7 @@ class JSONFormField(forms.CharField):
         if not value: return
         try:
             return simplejson.loads(value)
-        except Exception, exc:
+        except Exception as exc:
             raise forms.ValidationError(u'JSON decode error: %s' % (unicode(exc),))
 
 class JSONField(models.TextField):
